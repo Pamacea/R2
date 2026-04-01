@@ -1,0 +1,39 @@
+[package]
+name = "r2_client"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+# Workspace
+r2_core = { path = "../r2_core" }
+
+# Bevy game engine
+bevy.workspace = true
+
+# Serialization
+serde.workspace = true
+serde_json.workspace = true
+
+# Networking
+tokio-tungstenite.workspace = true
+futures-util.workspace = true
+
+# Utils
+tracing.workspace = true
+thiserror.workspace = true
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+# Wasm dependencies
+console_error_panic_hook = "0.1"
+wasm-bindgen-futures = "0.4"
+web-sys = { version = "0.3", features = [
+    "Window",
+    "console",
+    "WebSocket",
+] }
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3"

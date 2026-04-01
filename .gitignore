@@ -1,0 +1,47 @@
+# R2 - .gitignore
+
+# Cargo
+/target/
+**/*.rs.bk
+*.pdb
+
+# Cargo.lock (commenté pour le workspace)
+# Cargo.lock
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+
+# Database
+*.db
+*.sqlite
+
+# Build artifacts
+/dist/
+/wasm-pack.log
+
+# Tracing
+tracing-*.log
+
+# Flamegraph
+*.svg
+flamegraph*.svg
+
+# DEV
+.claude/
+.ex-g-se/
+.smite/

@@ -1,0 +1,81 @@
+[workspace]
+members = ["r2_core", "r2_server", "r2_client"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["R2 Team"]
+license = "MIT"
+repository = "https://github.com/yourusername/R2"
+
+[workspace.dependencies]
+# Bevy - Game Engine
+bevy = { version = "0.15", default-features = false, features = [
+    "bevy_asset",
+    "bevy_core_pipeline",
+    "bevy_render",
+    "bevy_sprite",
+    "bevy_text",
+    "bevy_ui",
+    "bevy_winit",
+    "bevy_window",
+    "multi_threaded",
+    "png",
+    "webgl2",
+    "webgpu",
+] }
+# Pour r2_core - derive Component léger (pas de runtime Bevy)
+bevy_ecs = { version = "0.15" }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Networking
+tokio = { version = "1.40", features = ["full"] }
+tokio-tungstenite = "0.24"
+futures-util = "0.3"
+
+# Async runtime
+axum = { version = "0.7", features = ["ws"] }
+tower = "0.5"
+tower-http = { version = "0.5", features = ["cors", "trace"] }
+
+# Database
+sqlx = { version = "0.8", features = ["runtime-tokio", "postgres", "chrono", "uuid", "json"] }
+redis = { version = "0.25", features = ["tokio-comp", "connection-manager"] }
+
+# Auth
+jsonwebtoken = "9.0"
+oauth2 = "5.0"
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Utils
+uuid = { version = "1.0", features = ["v4", "serde"] }
+thiserror = "2.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Dev
+tracing-tracy = "0.11"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+strip = true
+
+[profile.wasm-release]
+inherits = "release"
+opt-level = "z"
+lto = "fat"
+codegen-units = 1

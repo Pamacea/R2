@@ -1,0 +1,49 @@
+[package]
+name = "r2_server"
+version.workspace = true
+edition.workspace = true
+
+[[bin]]
+name = "r2_server"
+path = "src/main.rs"
+
+[dependencies]
+# Workspace
+r2_core = { path = "../r2_core" }
+
+# Async runtime
+tokio.workspace = true
+axum.workspace = true
+tower.workspace = true
+tower-http.workspace = true
+
+# Networking
+tokio-tungstenite.workspace = true
+futures-util.workspace = true
+
+# Serialization
+serde.workspace = true
+serde_json.workspace = true
+
+# Database
+sqlx.workspace = true
+redis.workspace = true
+
+# Auth
+jsonwebtoken.workspace = true
+oauth2.workspace = true
+
+# Time
+chrono.workspace = true
+
+# Utils
+uuid.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+# Config
+dotenvy = "0.15"
+
+[dev-dependencies]
+criterion = "0.5"

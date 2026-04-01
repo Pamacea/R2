@@ -1,0 +1,65 @@
+# R2 - Docker Compose pour jouer avec ses potes
+#
+# Un seul fichier, une seule commande :
+# docker-compose up -d
+#
+# Ça lance :
+# - PostgreSQL (base de données)
+# - Redis (cache)
+# - R2 Server (backend)
+
+version: '3.8'
+
+services:
+  # ============================================
+  # POSTGRESQL - Base de données
+  # ============================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: r2-postgres
+    environment:
+      POSTGRES_DB: r2_db
+      POSTGRES_USER: r2_user
+      POSTGRES_PASSWORD: r2_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # ============================================
+  # REDIS - Cache
+  # ============================================
+  redis:
+    image: redis:7-alpine
+    container_name: r2-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  # ============================================
+  # R2 SERVER - Backend
+  # ============================================
+  r2-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.rust
+    container_name: r2-server
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://r2_user:r2_password@postgres:5432/r2_db
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: dev-secret-change-en-prod
+      RUST_LOG: info
+      PORT: "3000"
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
