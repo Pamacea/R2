@@ -25,6 +25,7 @@ use axum::{
 };
 use futures_util::StreamExt;  // Pour .split()
 use redis::aio::ConnectionManager;
+use sqlx::SqlitePool;
 use std::net::SocketAddr;
 use tokio::net::TcpListener;
 use tracing::{info, Level};
@@ -41,7 +42,7 @@ use error::Result;
 /// État partagé de l'application
 #[derive(Clone)]
 pub struct AppState {
-    pub db: sqlx::PgPool,
+    pub db: SqlitePool,
     pub redis: ConnectionManager,
 }
 
@@ -60,13 +61,13 @@ async fn main() -> Result<()> {
     // Charger les variables d'environnement
     dotenvy::dotenv().ok();
 
-    // Connexion PostgreSQL
+    // Connexion SQLite (dev local) - :memory: pour les tests, fichier pour persister
     let database_url = std::env::var("DATABASE_URL")
-        .unwrap_or_else(|_| "postgresql://localhost/r2".to_string());
+        .unwrap_or_else(|_| "sqlite::memory:".to_string());
 
-    info!("📦 Connecting to PostgreSQL...");
-    let db = sqlx::PgPool::connect(&database_url).await?;
-    info!("✅ PostgreSQL connected");
+    info!("📦 Connecting to SQLite...");
+    let db = SqlitePool::connect(&database_url).await?;
+    info!("✅ SQLite connected");
 
     // Connexion Redis
     let redis_url = std::env::var("REDIS_URL")
