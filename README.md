@@ -21,10 +21,11 @@ R2 est un MMO spatial jouable entièrement dans le navigateur, combinant :
 | Composant | Technologie |
 |-----------|-------------|
 | Moteur de jeu | [Bevy 0.15](https://bevyengine.org/) (ECS, WebGPU) |
-| UI | [Dioxus](https://dioxuslabs.com/) (React-like en Rust) |
+| UI Web | [Next.js 16](https://nextjs.org/) (React, Canvas 2D) |
+| UI Natif | [Dioxus](https://dioxuslabs.com/) (React-like en Rust) |
 | Serveur Web | [Axum](https://github.com/tokio-rs/axum) (async) |
 | ECS Serveur | Bevy headless (code partagé) |
-| Base de données | PostgreSQL 16+ |
+| Base de données | PostgreSQL 16+ / SQLite (dev) |
 | Cache | Redis |
 | Auth | OAuth2 (Google/Discord) + JWT |
 | Protocole | WebSocket |
@@ -37,8 +38,9 @@ R2 est un MMO spatial jouable entièrement dans le navigateur, combinant :
 R2/
 ├── docs/              # Documentation complète
 ├── r2_core/           # Code partagé client/serveur
-├── r2_server/         # Serveur de simulation
-├── r2_client/         # Client Bevy Web
+├── r2_server/         # Serveur de simulation (Rust + Axum)
+├── r2_web/            # Frontend Web (Next.js)
+├── r2_client/         # Client Bevy Web (Rust + Dioxus)
 ├── Cargo.toml         # Workspace root
 ├── CHANGELOG.md       # Historique des versions
 ├── ROADMAP.md         # Feuille de route
@@ -59,37 +61,43 @@ docker-compose up -d
 Voir [GUIDE_LOCAL.md](./GUIDE_LOCAL.md) pour les détails.
 
 ### Option 2 : Lancer en local (dev)
-```
 
-#### Lancer le serveur
+#### Démarrer les services
 
 ```bash
-# Copier .env
-cp .env.example .env
+# 1. Démarrer Redis (requis)
+docker-compose up -d
 
-# Lancer PostgreSQL (optionnel, ou utiliser Render)
-docker run -d -p 5432:5432 -e POSTGRES_DB=r2 postgres:16
-
-# Lancer le serveur
+# 2. Démarrer le serveur backend (Rust)
 cd r2_server
 cargo run
+# Serveur sur http://localhost:3000
+
+# 3. Démarrer le frontend web (Next.js)
+cd r2_web
+npm run dev
+# Frontend sur http://localhost:3001
 ```
 
-#### Lancer le client (natif)
-
-```bash
-cd r2_client
-cargo run
+#### Lancer le client natif (optionnel)
 ```
 
-#### Lancer le client (web)
+#### Configuration
+
+Créer un fichier `.env` dans `r2_server/` :
 
 ```bash
-# Installer trunk
-cargo install trunk
+DATABASE_URL=sqlite::memory:
+REDIS_URL=redis://127.0.0.1:6379
+JWT_SECRET=dev-secret-change-in-production
+GOOGLE_CLIENT_ID=your_id
+GOOGLE_CLIENT_SECRET=your_secret
+```
 
-cd r2_client
-trunk serve --open
+Et `.env.local` dans `r2_web/` :
+
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
 
 ---

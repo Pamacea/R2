@@ -3,7 +3,7 @@ members = ["r2_core", "r2_server", "r2_client"]
 resolver = "2"
 
 [workspace.package]
-version = "0.1.0"
+version = "0.1.5"
 edition = "2021"
 authors = ["R2 Team"]
 license = "MIT"
@@ -58,6 +58,7 @@ uuid = { version = "1.0", features = ["v4", "serde"] }
 thiserror = "2.0"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+rand = "0.8"
 
 # Dev
 tracing-tracy = "0.11"

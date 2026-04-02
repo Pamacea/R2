@@ -1,7 +1,7 @@
 # Dockerfile optimisé pour R2 Server (Rust + Axum)
 # Multi-stage build pour réduire la taille finale
 
-FROM rust:1.83-slim as builder
+FROM rust:1.84-slim as builder
 
 # Installer les dépendances de build
 RUN apt-get update && apt-get install -y \
@@ -13,6 +13,9 @@ WORKDIR /app
 
 # Copier d'abord les manifests Cargo pour le cache
 COPY Cargo.toml Cargo.lock ./
+COPY r2_core/Cargo.toml ./r2_core/
+COPY r2_server/Cargo.toml ./r2_server/
+COPY r2_client/Cargo.toml ./r2_client/
 
 # Créer les crates vides pour le cache
 RUN mkdir -p r2_core/src r2_server/src r2_client/src
@@ -21,7 +24,7 @@ RUN echo "fn main() {}" > r2_server/src/main.rs
 RUN echo "fn main() {}" > r2_client/src/lib.rs
 
 # Build les dépendances (cache layer)
-RUN cargo build --release && rm -rf r2_core r2_server r2_client
+RUN cargo build --release && rm -rf r2_core/src r2_server/src r2_client/src
 
 # Copier le vrai code source
 COPY r2_core ./r2_core

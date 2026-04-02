@@ -15,6 +15,12 @@ pub struct Vec2 {
     pub y: f32,
 }
 
+impl Default for Vec2 {
+    fn default() -> Self {
+        Self::ZERO
+    }
+}
+
 impl Vec2 {
     pub const ZERO: Self = Self { x: 0.0, y: 0.0 };
 
@@ -104,7 +110,7 @@ impl ShipClass {
 // ============================================================================
 
 /// Faction dans le jeu
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum Faction {
     Neutral,
     Terran,

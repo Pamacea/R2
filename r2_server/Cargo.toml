@@ -32,6 +32,8 @@ redis.workspace = true
 # Auth
 jsonwebtoken.workspace = true
 oauth2.workspace = true
+reqwest = { version = "0.12", features = ["json"] }
+urlencoding = "2.1"
 
 # Time
 chrono.workspace = true
@@ -41,9 +43,13 @@ uuid.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
 tracing-subscriber.workspace = true
+base64 = "0.22"
 
 # Config
 dotenvy = "0.15"
+
+# ECS (headless, sans rendering)
+bevy_ecs.workspace = true
 
 [dev-dependencies]
 criterion = "0.5"

@@ -20,10 +20,16 @@ serde_json.workspace = true
 # Networking
 tokio-tungstenite.workspace = true
 futures-util.workspace = true
+tokio.workspace = true
 
 # Utils
 tracing.workspace = true
 thiserror.workspace = true
+chrono.workspace = true
+rand.workspace = true
+
+# Input & Interpolation
+tuple-conv = "1"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 # Wasm dependencies
@@ -33,7 +39,18 @@ web-sys = { version = "0.3", features = [
     "Window",
     "console",
     "WebSocket",
+    "MessageEvent",
+    "ErrorEvent",
+    "CloseEvent",
+    "BinaryType",
 ] }
+wasm-bindgen = "0.2"
+js-sys = "0.3"
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+# Native WebSocket client
+tokio-tungstenite = { workspace = true, features = ["native-tls"] }
+url = "2.5"
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3"

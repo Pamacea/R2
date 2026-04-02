@@ -1,6 +1,6 @@
 # Roadmap R2
 
-> **Version** : 0.1.0 | **Statut** : En développement
+> **Version courante** : 0.1.5 | **Statut** : Phase 1 - Foundation
 
 ---
 
@@ -21,19 +21,19 @@ Phase 4: Content       (Mois 10+)   ░░░░░░░░░░░░░░�
 Infrastructure technique solide, premiers pas multijoueur.
 
 ### Deliverables
-- [ ] Workspace Cargo avec 3 crates
-- [ ] Types partagés (r2_core)
-- [ ] Auth OAuth2 + JWT
-- [ ] WebSocket bidirectionnel
+- [x] Workspace Cargo avec 3 crates
+- [x] Types partagés (r2_core)
+- [x] Auth OAuth2 + JWT (Discord, GitHub)
+- [x] WebSocket bidirectionnel
 - [ ] Mouvement multijoueur fluide
 - [ ] Zones spatiales
 
-### Milestones
-| Semaine | Deliverable |
-|---------|-------------|
-| 1-4 | Workspace + Auth + WebSocket |
-| 5-8 | Mouvement multijoueur + Zones |
-| 9-12 | Combat basique + PNJ + Persistance |
+### Progression
+| Semaine | Deliverable | Status |
+|---------|-------------|--------|
+| 1-4 | Workspace + Auth + WebSocket | ✅ v0.1.5 |
+| 5-8 | Mouvement multijoueur + Zones | 🔄 En cours |
+| 9-12 | Combat basique + PNJ + Persistance | 🔲 Todo |
 
 ---
 
@@ -95,25 +95,42 @@ Rétention, communauté, contenus.
 
 ## 📊 Étapes Clés
 
-| Milestone | Date Cible | Status |
-|-----------|-----------|--------|
-| M0 - Prototype | S4 | 🔲 Todo |
-| M1 - Multiplayer | S8 | 🔲 Todo |
-| M2 - First Blood | S12 | 🔲 Todo |
-| M3 - Combat Fun | S16 | 🔲 Todo |
-| M4 - Content | S24 | 🔲 Todo |
-| M5 - Economy | S36 | 🔲 Todo |
-| M6 - Launch Ready | S48 | 🔲 Todo |
+| Milestone | Version | Status |
+|-----------|---------|--------|
+| M0 - Prototype | v0.1.0 | ✅ Done |
+| M1 - Multiplayer | v0.1.5 | 🔄 En cours |
+| M2 - First Blood | v0.2.0 | 🔲 Todo |
+| M3 - Combat Fun | v0.3.0 | 🔲 Todo |
+| M4 - Content | v0.5.0 | 🔲 Todo |
+| M5 - Economy | v0.8.0 | 🔲 Todo |
+| M6 - Launch Ready | v1.0.0 | 🔲 Todo |
 
 ---
 
-## 🔜 Prochaines Étapes
+## 🔜 Prochaines Étapes (v0.2.0)
 
-1. Créer le workspace Cargo
-2. Implémenter `r2_core` avec types de base
-3. Setup `r2_server` avec Axum
-4. Setup `r2_client` avec Bevy
-5. Première connection WebSocket
+1. Synchronisation du mouvement multijoueur via WebSocket
+2. Implémentation des zones spatiales (AOI)
+3. Système de collision basique
+4. Premier système de combat (tir, dégâts)
+
+---
+
+## 📝 Versions Récentes
+
+### v0.1.5 (2026-04-02)
+- OAuth2 GitHub + Email/Password
+- Game page avec Canvas 2D
+- Correction bug WebSocket (tagged enums)
+- Fix boucle infinie render
+
+### v0.1.4 (2026-04-01)
+- OAuth2 Discord
+- JWT tokens
+
+### v0.1.0 (2026-03-20)
+- Initial release
+- Bevy ECS integration
 
 ---
 
